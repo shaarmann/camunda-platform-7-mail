@@ -1,6 +1,7 @@
 package org.camunda.bpm.extension.mail.run;
 
 import org.camunda.bpm.extension.mail.config.MailConfiguration;
+import org.camunda.bpm.extension.mail.config.MailConfigurationFactory;
 import org.camunda.bpm.extension.mail.config.PropertiesMailConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,12 +45,14 @@ public class MailConfigurationProvider {
             LOG.info("Fixed key for value '{}'", fixedProperties.getProperty(fixedKey));
           }
         });
-    return new PropertiesMailConfiguration(fixedProperties) {
+    MailConfiguration configuration = new PropertiesMailConfiguration(fixedProperties) {
       @Override
       protected Properties loadProperties() {
         // never search for properties on the classpath, only use application.yaml
         return new Properties();
       }
     };
+    MailConfigurationFactory.setConfiguration(configuration);
+    return configuration;
   }
 }
