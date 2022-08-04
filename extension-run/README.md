@@ -21,12 +21,14 @@ see [the root project's readme](/README.md).
 ## How to Configure it?
 
 Configure the plugin via a YAML file (i.e., the `default.yml`).
-Preceed all properties with the prefix `camunda.bpm.plugin.mail.properties`.
+Preceed all properties with the prefix `camunda.bpm.plugin.mail`.
+
+The `mail.` prefix that comes with the old bootstrapping strategy will be appended to remain compatible.
 
 An Example configuration can look like this
 
 ```yml
-plugin.mail.properties.mail:
+camunda.bpm.plugin.mail:
   # send mails via SMTP
   transport.protocol: smtp
 
