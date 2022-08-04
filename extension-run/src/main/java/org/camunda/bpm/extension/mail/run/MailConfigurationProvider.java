@@ -27,22 +27,18 @@ public class MailConfigurationProvider {
 
   @Bean
   public MailConfiguration mailConfiguration(@Qualifier("mail-connector-configuration") Properties properties) {
-    LOG.info("Providing MailConfiguration with these Properties: ");
-    properties.forEach((o, o2) -> LOG.info("'{}' = '{}'", o, o2));
-    LOG.info("Appending 'mail.' prefix if missing:");
+    LOG.debug("Appending 'mail.' prefix if missing:");
     Properties fixedProperties = new Properties();
     properties
         .stringPropertyNames()
         .forEach(key -> {
           if (key.startsWith("mail.")) {
-            LOG.info("Key '{}' starts with 'mail.', putting directly", key);
+            LOG.debug("Key '{}' starts with 'mail.', putting directly", key);
             fixedProperties.put(key, properties.getProperty(key));
-            LOG.info("Fixed key for value {}", fixedProperties.getProperty(key));
           } else {
             String fixedKey = "mail." + key;
-            LOG.info("Key '{}' was fixed to '{}', putting fixed key", key, fixedKey);
+            LOG.debug("Key '{}' was fixed to '{}', putting fixed key", key, fixedKey);
             fixedProperties.put(fixedKey, properties.getProperty(key));
-            LOG.info("Fixed key for value '{}'", fixedProperties.getProperty(fixedKey));
           }
         });
     MailConfiguration configuration = new PropertiesMailConfiguration(fixedProperties) {
